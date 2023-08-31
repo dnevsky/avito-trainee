@@ -136,7 +136,8 @@ func (s *SegmentService) Create(dto segment.CreateSegmentDTO) (*models.Segment, 
 
 	var percent *float64
 	if dto.AutoAttachPercent != nil {
-		*percent = float64(*dto.AutoAttachPercent) / 100
+		percentRes := float64(*dto.AutoAttachPercent) / 100
+		percent = &percentRes
 	}
 
 	segment, err := s.SegmentRepository.Create(segment, percent)
