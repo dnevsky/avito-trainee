@@ -1,0 +1,772 @@
+{
+	"info": {
+		"_postman_id": "7412a907-4914-4265-ae03-9ecdcf65e703",
+		"name": "Avito-Trainee",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28881416"
+	},
+	"item": [
+		{
+			"name": "Segment",
+			"item": [
+				{
+					"name": "Create Segment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test_segment\", // обязательно; name сегмента\r\n    \"ttl\": \"5m\", // опционально. 1s (сек) 2m (мин) 3h (часа) 4m (минуты) 5d (дни) 6w (недели) 7y (года). Можно использовать всё вместе (1d 12h), (2w 2d)...\r\n    \"auto_attach_percent\": 50 // опционально\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_route}}/api/v0/segment",
+							"host": [
+								"{{api_route}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"segment"
+							]
+						},
+						"description": "Создание сегмента. Обязательное поле \"name\".\n\nЕсли существует \"ttl\", то сегмент будет создан со временем жизни time.now() + ttl.\n\nTTL принимает следующие значения:\n\n```\n1s - 1 секунда\n2m - 2 минуты\n3h - 3 часа\n4d - 4 дня\n5w - 5 недель\n6y - 6 лет\n\n ```\n\nПри этом их можно комбинировать различными способами. Порядок не важен.\n\nНапример: `2d 15h (now() + 2 дня и 15 часов)`\n\nСегменты удаляются в шедуллере, который запускается раз в минуту. Я считаю это допустимым вариантом, поскольку сегменты не нужно удалять прям супер быстро и если мы на несколько секунд дольше продержим сегмент созданным то ничего страшного не произойдет и миллион денег мы не потеряем. Худшее что может произойти - некоторые пользователи на минуту дольше смогут... записывать голосовые сообщения. Ну или скидка дольше будет."
+					},
+					"response": [
+						{
+							"name": "Create Segment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"test_segment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8002/api/v0/segment",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"api",
+										"v0",
+										"segment"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"data\": {\n        \"id\": 28,\n        \"created_at\": \"2023-08-29T20:29:22.996315Z\",\n        \"updated_at\": \"2023-08-29T20:29:22.996315Z\",\n        \"name\": \"test_segment\",\n        \"ttl\": null\n    }\n}"
+						},
+						{
+							"name": "Create Segment With TTL",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"test_segment\",\r\n    \"ttl\": \"5m\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_route}}/api/v0/segment",
+									"host": [
+										"{{api_route}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"segment"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"data\": {\n        \"id\": 33,\n        \"created_at\": \"2023-08-29T20:53:41.681001Z\",\n        \"updated_at\": \"2023-08-29T20:53:41.681001Z\",\n        \"name\": \"test_segment\",\n        \"ttl\": \"2023-08-29T20:58:41.678826Z\"\n    }\n}"
+						},
+						{
+							"name": "Create Segment Already Exist",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"test_segment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8002/api/v0/segment",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"api",
+										"v0",
+										"segment"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"text\": \"Duplicate key value\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Segment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_route}}/api/v0/segment/:id",
+							"host": [
+								"{{api_route}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"segment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "AVITO_VOICE_MESSAGES2",
+									"description": "name сегмента"
+								}
+							]
+						},
+						"description": "Получение модели сегмента по его \"name\"."
+					},
+					"response": [
+						{
+							"name": "Get Segment",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8002/api/v0/segment/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"api",
+										"v0",
+										"segment",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "test_segment",
+											"description": "name сегмента"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"code\": 200,\r\n    \"data\": {\r\n        \"id\": 33,\r\n        \"created_at\": \"2023-08-29T20:53:41.681001Z\",\r\n        \"updated_at\": \"2023-08-29T20:53:41.681001Z\",\r\n        \"name\": \"test_segment\",\r\n        \"ttl\": \"2023-08-29T20:58:41.678826Z\"\r\n    }\r\n}"
+						},
+						{
+							"name": "Get Segment Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_route}}/api/v0/segment/:id",
+									"host": [
+										"{{api_route}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"segment",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "AVITO_VOICE_MESSAGES2",
+											"description": "name сегмента"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"code\": 404,\r\n    \"text\": \"record not found\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Segment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test_segment\" // обязательно; name сегмента\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_route}}/api/v0/segment",
+							"host": [
+								"{{api_route}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"segment"
+							]
+						},
+						"description": "Удаление сегмента по его \"name\". При удалении сегмента так же удаляются все связи с пользователями."
+					},
+					"response": [
+						{
+							"name": "Delete Segment Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"test_segment4\" // обязательно; name сегмента\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8002/api/v0/segment",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"api",
+										"v0",
+										"segment"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"text\": \"record not found\"\n}"
+						},
+						{
+							"name": "Delete Segment",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"test_segment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_route}}/api/v0/segment",
+									"host": [
+										"{{api_route}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"segment"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Attach User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 5, // обязательно; id пользователя\r\n    \"add_segments\": [ // массив name сегментов, которые нужно добавить к пользователю\r\n        \"AVITO_VOICE_MESSAGES\"\r\n    ],\r\n    \"delete_segments\": [ // массив name сегментов, которые нужно удалить у пользователя\r\n    ],\r\n    \"ttl\": \"5m\" // опционально. Время жизни сегмента у пользователя.\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_route}}/api/v0/segment/attach",
+							"host": [
+								"{{api_route}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"segment",
+								"attach"
+							]
+						},
+						"description": "Добавить сегмент к пользователю по ID юзера.\n\nВ запросе может быть как \"add_segments\", так и \"delete_segments\".\n\nВ ответе два поля - attached и deleted.\n\nattached - названия сегментов, которые действительно были добавлены к пользователю.\n\ndeleted - названия сегментов, которые действительно были удалены у пользователей.\n\nПри добавлении сегмента к пользователю в случае если сегмента не существует он не будет добавлен, но и ошибку ручка не вернёт.\n\nАналогично при удалении сегмента у юзера."
+					},
+					"response": [
+						{
+							"name": "Attach User Attached",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": 4,\r\n    \"add_segments\": [\r\n        \"test_segment\"\r\n    ],\r\n    \"delete_segments\": [\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8002/api/v0/segment/attach",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"api",
+										"v0",
+										"segment",
+										"attach"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"data\": {\n        \"attached\": [\n            \"test_segment\"\n        ],\n        \"deleted\": []\n    }\n}"
+						},
+						{
+							"name": "Attach User Deleted",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": 4,\r\n    \"add_segments\": [\r\n    ],\r\n    \"delete_segments\": [\r\n        \"test_segment\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_route}}/api/v0/segment/attach",
+									"host": [
+										"{{api_route}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"segment",
+										"attach"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"data\": {\n        \"attached\": [],\n        \"deleted\": [\n            \"test_segment\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Download History",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"year\": 2023, // год отчета\r\n    \"month\": 8, // месяц отчета\r\n    \"user_id\": 4 // id пользователя, у которого мы запрашиваем отчет\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_route}}/api/v0/segment/history",
+							"host": [
+								"{{api_route}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"segment",
+								"history"
+							]
+						},
+						"description": "Получение истории операций со всеми сегментами у конкретного пользователя. Все поля обязательны.\n\nВ ответ возвращается данные CSV файла.\n\nПо ТЗ нужно возвращать ссылку, но я решил не делать ссылку а просто возвращать файл.\n\nДа, если в истории будет оооочень много записей это может занять время. Я это понимаю. Желательно это делать асинхронно используя воркер пул и при запросе истории возвращать условный job_id. У меня даже есть реализация этой схемы, но на текущем этапе я решил не тратить время на это. А так, я бы сделал как описал выше + заливал бы csv файл в какое-нибудь s3 хранилище и через условную неделю удалял бы его оттуда."
+					},
+					"response": [
+						{
+							"name": "Download History",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"year\": 2023,\r\n    \"month\": 8,\r\n    \"user_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8002/api/v0/segment/history",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"api",
+										"v0",
+										"segment",
+										"history"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "ID User,Segment Name,Operation,Date\r\n4,test_segment,add,2023-08-29 21:55:10.943946 +0300 MSK\r\n4,test_segment,delete,2023-08-29 22:12:00.040868 +0300 MSK\r\n4,test_segment2,add,2023-08-29 22:13:12.817656 +0300 MSK\r\n4,test_segment3,add,2023-08-29 22:13:27.537871 +0300 MSK\r\n4,test_segment2,delete,2023-08-29 22:19:00.044268 +0300 MSK\r\n4,test_segment3,delete,2023-08-29 22:19:00.047467 +0300 MSK\r\n4,test_segment4,add,2023-08-29 23:26:47.965773 +0300 MSK\r\n4,test_segment4,delete,2023-08-29 23:32:57.009489 +0300 MSK\r\n"
+						}
+					]
+				}
+			],
+			"description": "В данном разделе реализована работа с сегментами."
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"segments\": [ // не обязательно. по умолчанию создастся пользователь без сегментов\r\n        \"AVITO_VOICE_MESSAGES\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_route}}/api/v0/user",
+							"host": [
+								"{{api_route}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"user"
+							]
+						},
+						"description": "Метод создаёт модель пользователя с переданными ему сегментами.\n\nПоле \"segments\" необязательное, но если его передают и если переданные сегменты существуют - то они добавяться пользователю."
+					},
+					"response": [
+						{
+							"name": "Create User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8002/api/v0/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"api",
+										"v0",
+										"user"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"data\": {\n        \"id\": 6,\n        \"created_at\": \"2023-08-30T20:22:54.327784Z\",\n        \"updated_at\": \"2023-08-30T20:22:54.327784Z\",\n        \"segments\": null\n    }\n}"
+						},
+						{
+							"name": "Create User With Segments",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"segments\": [\r\n        \"AVITO_VOICE_MESSAGES\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_route}}/api/v0/user",
+									"host": [
+										"{{api_route}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"user"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"code\": 200,\r\n    \"data\": {\r\n        \"id\": 10,\r\n        \"created_at\": \"2023-08-30T20:49:12.549499Z\",\r\n        \"updated_at\": \"2023-08-30T20:49:12.549499Z\",\r\n        \"segments\": [\r\n            {\r\n                \"id\": 1,\r\n                \"created_at\": \"2023-08-26T19:02:57.920905Z\",\r\n                \"updated_at\": \"2023-08-26T19:02:57.920905Z\",\r\n                \"name\": \"AVITO_VOICE_MESSAGES\",\r\n                \"ttl\": null\r\n            }\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_route}}/api/v0/user/:id",
+							"host": [
+								"{{api_route}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "id пользователя"
+								}
+							]
+						},
+						"description": "Отдаёт модель пользователя с прикреплёнными к нему сегментами."
+					},
+					"response": [
+						{
+							"name": "Get User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_route}}/api/v0/user/:id",
+									"host": [
+										"{{api_route}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "id пользователя"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"created_at\": \"2023-08-26T19:03:02.484282Z\",\n        \"updated_at\": \"2023-08-26T19:03:02.484282Z\",\n        \"segments\": [\n            {\n                \"id\": 2,\n                \"created_at\": \"2023-08-26T20:29:24.819012Z\",\n                \"updated_at\": \"2023-08-26T20:29:24.819012Z\",\n                \"name\": \"AVITO_VOICE_MESSAGES2\",\n                \"ttl\": null\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "В данном разделе реализована работа с моделью пользователя. Под капотом в этой моделе нет каких-то сложных полей. Это просто ID пользователя, дата создания, дата обновления... и всё."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_route",
+			"value": "http://localhost:8002",
+			"type": "string"
+		}
+	]
+}

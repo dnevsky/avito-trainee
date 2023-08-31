@@ -1,0 +1,10 @@
+http:
+  port: 8002
+  maxHeaderBytes: 1
+  readTimeout: 10s
+  writeTimeout: 10s
+
+limiter:
+  rps: 10
+  burst: 20
+  ttl: 10m

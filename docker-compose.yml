@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  avito-trainee:
+    image: dnevsky/avito-trainee
+    container_name: avito-trainee
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      avito-trainee-db:
+        condition: service_healthy
+    ports:
+      - "8002:8002"
+    networks:
+      - app-avito-network
+
+  avito-trainee-db:
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: "appDB"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "pgpwd4"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+    volumes:
+      - ../.database-avito-trainee/postgres/data:/var/lib/postgresql/data
+    ports:
+      - "54322:5432"
+    networks:
+      - app-avito-network
+
+networks:
+  app-avito-network:
+    name: avito-trainee-network
+volumes:
+  postgres_data:
