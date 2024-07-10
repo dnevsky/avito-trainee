@@ -1,6 +1,4 @@
-# Avito Trainee 23
-
-https://github.com/avito-tech/backend-trainee-assignment-2023
+# Avito Trainee
 
 ## Запуск сервиса
 
